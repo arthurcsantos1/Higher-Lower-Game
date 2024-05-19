@@ -1,0 +1,66 @@
+from art import logo
+from art import vs
+from game_data import data
+import random
+
+
+def retrieve_data():
+    global followers
+    random_dictionary = random.choice(data)
+    name = random_dictionary["name"]
+    description = random_dictionary["description"]
+    country = random_dictionary["country"]
+    followers = random_dictionary["follower_count"]
+    print(f"Compare A: {name}, {description}, from {country}")
+
+
+def retrieve_second_data():
+    global second_followers
+    second_random_dictionary = random.choice(data)
+    name = second_random_dictionary["name"]
+    description = second_random_dictionary["description"]
+    country = second_random_dictionary["country"]
+    second_followers = second_random_dictionary["follower_count"]
+    print(f"Compare B: {name}, {description}, from {country}")
+
+
+current_score = 0
+
+
+def calculate():
+    global current_score
+    if player_choice == "a" and followers > second_followers:
+        current_score += 1
+        print(f"current score is {current_score}")
+        return "You are right!"
+    elif player_choice == "a" and followers < second_followers:
+        return "You lost!"
+    elif player_choice == "b" and followers < second_followers:
+        current_score += 1
+        print(f"current score is {current_score}")
+        return "You are right!"
+    elif player_choice == "b" and followers > second_followers:
+        return "You lost!"
+
+
+print(logo)
+retrieve_data()
+print(vs)
+retrieve_second_data()
+player_choice = input("Who has more followers? Type 'A' or 'B': ").lower()
+
+should_continue = True
+
+while should_continue:
+    if calculate() == "You are right!":
+        should_continue = True
+        print(logo)
+        print(f"You are right! current score is {current_score}")
+        retrieve_data()
+        print(vs)
+        retrieve_second_data()
+        player_choice = input("Who has more followers? Type 'A' or 'B': ")
+    elif calculate() == "You lost!":
+        print(logo)
+        print(f"Sorry, that's wrong. Final score: {current_score}")
+        should_continue = False
